@@ -1,0 +1,11 @@
+/* Write your global styles here, in PostCSS syntax */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.customInput {
+    @apply rounded-3xl resize-none focus:border-zinc-400 focus:dark:border-zinc-500 border-2 border-transparent px-8 py-4 focus-within:outline-none transition-colors duration-300 bg-gray-100 dark:bg-zinc-800;
+}
+.btn {
+    @apply border-2 dark:border-white border-zinc-500 px-5 py-3 rounded-full;
+}
