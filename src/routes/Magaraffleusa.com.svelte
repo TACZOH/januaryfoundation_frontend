@@ -191,11 +191,11 @@
 	</div>
 </div>
 {#if (page.ticketDetails.length > 0)}
-<div class="mx-8 my-6 flex gap-2 max-w-screen h-60 text-xl font-semibold text-justify">
+<div class="mx-8 my-6 flex gap-2 max-w-screen h-72 text-xl font-semibold text-justify items-center">
   {#each page.ticketDetails as props (props)}
     {#if (props.thumbnail.url)} 
-      <a href={props.thumbnail.link}>
-        <img src={props.thumbnail.url} alt="" class="px-5 rounded" />
+      <a href={props.link}>
+        <img src={props.thumbnail.url} alt="" class="px-5 rounded w-60 h-60" />
       </a>
     {/if}
   {/each}

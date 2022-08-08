@@ -5,7 +5,7 @@
 	import { config } from '$lib/vars';
 
 	export const load: Load = async () => {
-		const { data } = await axios.get(`${config.ENDPOINT_URL}raffle`);
+		const { data } = await axios.get(`${config.ENDPOINT_URL}education`);
 		const global = await axios.get(`${config.ENDPOINT_URL}global`);
 		const resHeader = await axios.get(`${config.ENDPOINT_URL}header`);
 		const resFooter = await axios.get(`${config.ENDPOINT_URL}footer`);
