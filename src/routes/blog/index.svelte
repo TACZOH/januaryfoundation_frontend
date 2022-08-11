@@ -33,7 +33,7 @@
 	// import { published } from '$lib/date';
 	import SvelteSeo from 'svelte-seo';
 
-	export let page: IBlogPage;
+	export let page: any;
 	export let keywords: string;
 	
 	import '../../app.css';	
@@ -154,6 +154,7 @@
 		}
 		footerNav = [...footerNav, obj]
 	}
+	console.log(posts)
 </script>
 
 <SvelteSeo title={page?.SEO?.title} description={page?.SEO?.description} {keywords} />
@@ -161,7 +162,9 @@
 
 	<Header {logo} {nav} />
 <section class="max-w-7xl mx-auto flex flex-col items-center">
-	<h2 class="md:text-5xl text-3xl font-bold mb-32">Blog</h2>
+	<h2 class="md:text-5xl text-3xl font-bold my-5">{page?.data?.title}</h2>
+	<p class="md:text-md text-md mb-32 text-center px-12">{page?.data?.description}</p>
+
 
 	<div class="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
 		{#await posts}
@@ -187,7 +190,7 @@
 
 					<img
 						class="m-0 transition-transform duration-300 w-full max-h-60 group-hover:scale-110"
-						src={`https://assets.${config.SITE_URL}/${post.image.hash}${post.image.ext}`}
+						src={post?.image?.url}
 						loading="lazy"
 						alt={post.title}
 					/>

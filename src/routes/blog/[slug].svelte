@@ -147,10 +147,10 @@
 
 	<Header {logo} {nav} />
 <div class="container flex flex-col items-center mx-auto pt-20 pb-10">
-	<h1 class="mb-6 w-11/12 text-center text-2xl font-bold md:w-1/2 md:text-left md:text-5xl">
+	<h1 class="mb-6 w-11/12 text-center text-2xl font-bold md:w-1/2 md:text-5xl">
 		{post.title}
 	</h1>
-	<!-- <img class="mb-8 md:max-w-3xl" src={`https://assets.${config.SITE_URL}/${post.image.hash}${post.image.ext}`} alt={post.title} /> -->
+	<img class="mb-8 md:max-w-3xl" src={post.image.url} alt={post.title} />
 	<div class="prose mb-20 flex flex-col items-center">
 		<SvelteMarkdown source={post.content} />
 	</div>
