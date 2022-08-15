@@ -3,6 +3,7 @@
 	import type { Load } from '@sveltejs/kit';
 	import axios from 'axios';
 	import { config } from '$lib/vars';
+	import SvelteMarkdown from 'svelte-markdown';
 
 	export const load: Load = async () => {
 		const { data } = await axios.get(`${config.ENDPOINT_URL}education`);
@@ -169,20 +170,21 @@
 <SvelteSeo title={page?.SEO?.title} description={page?.SEO?.description} {keywords} />
 
 
-<div class='bg-white overflow-hidden shadow divide-y divide-gray-200'>
+<div class='bg-white overflow-hidden shadow'>
 
 	<Header {logo} {nav} />
 	
-	<div class="mx-8 max-w-screen flex gap-6 items-center">
-        <Form {type} />
-    
-        <div class="w-1/2">
-            <svelte:component this={Carousel} bind:this={carousel}>
-            {#each page.slider as { url } (url)}
-                <img src={url} alt="" class="max-w-40 h-80" />
-            {/each}
-        </svelte:component>
-        </div>
-    </div>
+	<div class="w-4/5 mx-auto my-4">
+		<svelte:component this={Carousel} bind:this={carousel} autoplay arrows={false}>
+			{#each page.slider as { url } (url)}
+				<img src={url} alt="" class="max-w-40 h-80" />
+			{/each}
+		</svelte:component>
+	</div>
+	<h2 class='text-center my-4'>{page.title}</h2>
+	{#if page.description}
+	<SvelteMarkdown source={page.description} />
+	{/if}
+
 	<Footer {logo} {footerNav} {socialMedia} />
 </div>

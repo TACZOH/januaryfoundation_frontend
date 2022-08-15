@@ -191,12 +191,13 @@
 		{#if !hideForm}
 			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" transition:fade>
 				<div class="max-w-3xl mx-auto">
-					<form on:submit|preventDefault={onSubmit} class="space-y-8 divide-y divide-gray-200">
+					<form on:submit|preventDefault={onSubmit} class="space-y-8">
 						<div class="space-y-8 divide-y divide-gray-200">
-							<div>
+							{#if (type === "raffle")}
+							 <div>
 								<div>
 									<h3 class="text-lg leading-6 font-medium text-gray-900 capitalize">
-										{type !== "raffle" ? `${type} Grant Application` : `${type} Ticket`}
+										{type === "raffle" && `${type} Ticket`}
 									</h3>
 									<p class="mt-1 text-sm text-gray-500">
 										After submitting the form you will be prompted to pay fee of ${typeof fee ==
@@ -215,7 +216,7 @@
 									<Body bind:value={data.body} {type} />
 								{/if}
 							</div>
-
+							{/if}
 							<div class="pt-8">
 								<div>
 									<h3 class="text-lg leading-6 font-medium text-gray-900 capitalize">

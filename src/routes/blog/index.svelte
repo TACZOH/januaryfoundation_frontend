@@ -154,7 +154,6 @@
 		}
 		footerNav = [...footerNav, obj]
 	}
-	console.log(posts)
 </script>
 
 <SvelteSeo title={page?.SEO?.title} description={page?.SEO?.description} {keywords} />
@@ -163,7 +162,9 @@
 	<Header {logo} {nav} />
 <section class="max-w-7xl mx-auto flex flex-col items-center">
 	<h2 class="md:text-5xl text-3xl font-bold my-5">{page?.data?.title}</h2>
+	{#if page.dataset_dev.description}
 	<p class="md:text-md text-md mb-32 text-center px-12">{page?.data?.description}</p>
+	{/if}
 
 
 	<div class="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -177,15 +178,6 @@
 				>
 					<div class="flex flex-col p-5">
 						<h1 class="mb-2 text-xl font-bold">{post.title}</h1>
-						<!-- <span class="flex-1 text-gray-600">{post.description}</span> -->
-						<!-- <div class="mt-8 grid grid-cols-1 space-y-1">
-						<p class="text-gray-400 font-medium">
-							Published: {published(post.date ?? post.published_at)}
-						</p>
-						<p class="text-gray-400 font-medium">
-							Last Updated: {published(post.updated_at)}
-						</p>
-					</div> -->
 					</div>
 
 					<img
