@@ -160,11 +160,11 @@
 <div class='bg-white overflow-hidden shadow divide-y divide-gray-200'>
 
 	<Header {logo} {nav} />
-<section class="max-w-7xl mx-auto flex flex-col items-center">
-	<h2 class="md:text-5xl text-3xl font-bold my-5">{page?.data?.title}</h2>
-	{#if page.data.description}
-	<p class="md:text-md text-md mb-32 text-center px-12">{page?.data?.description}</p>
-	{/if}
+	<section class="max-w-7xl mx-auto flex flex-col items-center">
+		<h2 class="md:text-5xl text-3xl font-bold my-5">{page?.title}</h2>
+		{#if page?.description}
+		<p class="md:text-md text-md mb-32 text-center px-12">{page?.description}</p>
+		{/if}
 
 
 	<div class="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
