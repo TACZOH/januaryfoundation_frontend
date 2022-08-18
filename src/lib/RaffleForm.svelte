@@ -26,8 +26,9 @@
 
 	export let type: FormType;
 	export let fee: number | undefined = undefined;
-
-	const form = new Form(type);
+	export let page: any
+	
+	export let form = new Form(type);
 	const paypal = new PayPal(
 		type,
 		{
@@ -151,16 +152,6 @@
 				}
 				break;
 			case "raffle":
-				// if ($fName && $lName && $email && $age && $idValidity && $phone) {
-				// 	data.PhoneNumber = data.PhoneNumber;
-				// 	data.PhoneNumber = PhoneCheck($PhoneNumber).phoneNumber ?? $PhoneNumber;
-				// 	form.valid = true;
-				// 	form.data = form.data;
-				// 	form.data = form.define.ticket.raffle(data);
-				// 	hideForm = hideForm;
-				// 	hideForm = true;
-				// 	return await paypal.checkout();
-				// }
 				if ($name && $email) {
 					form.valid = true;
 					form.data = form.data;
@@ -189,21 +180,22 @@
 {:then number}
 	{#if (type === "nomination" || (data.number = number), number < 40000)}
 		{#if !hideForm}
-			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" transition:fade>
+			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8" transition:fade>
 				<div class="max-w-3xl mx-auto">
 					<form on:submit|preventDefault={onSubmit} class="space-y-8">
-						<div class="space-y-8 divide-y divide-gray-200">
+						<div class="space-y-8">
 							{#if (type === "raffle")}
 							 <div>
 								<div>
 									<h3 class="text-lg leading-6 font-medium text-gray-900 capitalize">
-										{type === "raffle" && `${type} Ticket`}
+										{type === "raffle" && `${page.title}`}
 									</h3>
 									<p class="mt-1 text-sm text-gray-500">
-										After submitting the form you will be prompted to pay fee of ${typeof fee ==
-										"number"
-											? fee
-											: defaultFee(type)}.
+										{type === "raffle" ? `${page.description}` : `After submitting the form you will be prompted to pay fee of ${typeof fee ==
+											"number"
+												? fee
+												: defaultFee(type)}.`}
+										
 									</p>
 								</div>
 								{#if type !== "raffle" && type !== "individual"}
@@ -232,19 +224,32 @@
 									{#if type === "business" || type === "institution"}
 										<OrganizationDetails bind:value={data.Organization} />
 									{:else if type === "nomination"}
-										<FullName bind:value={data.FullName} title='Full name
-										' />
-										<Email bind:value={data.Email} title='Email address
-										' />
+										<FullName bind:value={data.FullName} title='Full name' />
+										<Email bind:value={data.Email} title='
+										Email address' />
 									{:else if type === "individual"}
-										<FullName bind:value={data.FullName} title='Full name
-										'/>
-										<Email bind:value={data.Email} title='Email address
-										'/>
+										<FullName bind:value={data.FullName} title='Full name' />
+										<Email bind:value={data.Email} title='
+										Email address' />
 										<!-- <ID bind:value={data.idNumber} /> -->
 										<!-- <Phone /> -->
 										<!-- <Birthday bind:value={data.birthdate} /> -->
+									{:else if type === "raffle"}
+										{#if page.column.nameField}
+										<FullName bind:value={data.FullName} title={page.column.nameField} />
+										{/if}
+										<!-- <FLName bind:firstName={data.FirstName} bind:lastName={data.LastName} /> -->
+										{#if page.column.emailField}
+										<Email bind:value={data.Email} title={page.column.emailField} />
+										{/if}
+										{#if page.column.countryField}
+										<Country bind:country={data.Address.country} title={page.column.countryField}/>
+										{/if}
+										<!-- <Phone /> -->
+										<!-- <ID bind:value={data.idNumber} /> -->
+										<!-- <Birthday bind:value={data.birthdate} /> -->
 									{/if}
+
 									<!-- if personal info -->
 
 									<!-- FLName or FullName -->

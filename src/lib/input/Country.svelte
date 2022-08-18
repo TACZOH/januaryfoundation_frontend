@@ -10,6 +10,8 @@
 	import { countries } from "$lib/stores";
 
 	export let country: string;
+	export let title: string | undefined;
+
 </script>
 
 <div class="sm:col-span-3">
@@ -21,7 +23,7 @@
 		}}
 		let:open>
 		<ListboxLabel id="listbox-label" class="block text-sm font-medium text-gray-700"
-			>Country</ListboxLabel>
+			>{title}</ListboxLabel>
 		<div class="mt-1">
 			<ListboxButton
 				type="button"

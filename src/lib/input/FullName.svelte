@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { validate } from '$lib/formValidation';
 	export let value: string;
+	export let title: string | undefined;
+
 	let valid: boolean;
 
 	const onInput = () => {
@@ -9,7 +11,7 @@
 </script>
 
 <div class="sm:col-span-3">
-	<label for="name" class="block text-sm font-medium text-gray-700"> Full name </label>
+	<label for="name" class="block text-sm font-medium text-gray-700"> {title} </label>
 	<div class="mt-1">
 		<input
 			bind:value

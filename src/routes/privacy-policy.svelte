@@ -3,22 +3,19 @@
 	import axios from 'axios';
 	import { config } from '$lib/vars';
 	import SvelteMarkdown from 'svelte-markdown';
-	import './styles.css'
-
+	import './styles.css';
 	export const load: Load = async () => {
-		const { data } = await axios.get(`${config.ENDPOINT_URL}raffle`);
+		const { data } = await axios.get(`${config.ENDPOINT_URL}privacy-policy`);
 
 		const global = await axios.get(`${config.ENDPOINT_URL}global`);
 		const resHeader = await axios.get(`${config.ENDPOINT_URL}header`);
 		const resFooter = await axios.get(`${config.ENDPOINT_URL}footer`);
-
 		const logo: string = global.data.logo.url;
-		if (data) {
+		if (resHeader) {
 			return {
 				props: {
-					page: data,
-					keywords: data?.SEO?.keywords.join(', '),
 					logo,
+					page: data,
 					navData: resHeader?.data?.nav,
 					footer: resFooter?.data?.footer,
 					socialMedia: resFooter?.data?.social_media
@@ -33,33 +30,19 @@
 </script>
 
 <script lang="ts">
+	let status: null | string = null;
 	import '../app.css';
 	import Header from '../components/Header.svelte';
 	import Footer from '../components/Footer.svelte';
-	import SvelteSeo from 'svelte-seo';
 	import { setSubitems } from '$lib/menuSubitems';
-	import type { MenuSubitems, MenuSubitem, FormType } from '$lib/types';
-	import { onMount } from 'svelte';
+	import type { MenuSubitems, MenuSubitem } from '$lib/types';
 
-	const type: FormType = 'raffle';
 	export let logo: string;
 	export let navData: any;
 	export let footer: any;
 	export let socialMedia: any;
 	export let page: any;
-	export let keywords: string;
 
-	let Carousel: any; // for saving Carousel component class
-	
-	export let carousel: { goToNext: () => void }; // for calling methods of the carousel instance
-	onMount(async () => {
-		// @ts-ignore
-		const module = await import('svelte-carousel');
-		Carousel = module.default;
-	});
-	const handleNextClick = () => {
-		carousel.goToNext();
-	};
 	const applications: MenuSubitem[] = [];
 
 	setSubitems('Individual').forEach((element) => {
@@ -164,34 +147,15 @@
 	}
 </script>
 
-<SvelteSeo title={page?.SEO?.title} description={page?.SEO?.description} {keywords} />
-
-<div class="bg-white overflow-hidden shadow px-6">
+<div class="bg-white overflow-hidden shadow">
 	<Header {logo} {nav} />
-
-	<div class="w-4/5 mx-auto my-4">
-		<svelte:component this={Carousel} bind:this={carousel} autoplay arrows={false}>
-			{#each page.slider as { url } (url)}
-				<img src={url} alt="" class="max-w-40 h-80" />
-			{/each}
-		</svelte:component>
+	<div class="max-w-5xl px-4 sm:px-6 lg:px-8 mt-5 mx-auto">
+		{#if page.title}
+			<h2 class="text-xl lg:text-2xl font-bold text-gray-900 my-5">{page.title}</h2>
+		{/if}
+		{#if page.description}
+			<SvelteMarkdown source={page.description} />
+		{/if}
 	</div>
-	<h2 class='text-center my-4'>{page.title}</h2>
-	{#if page.description}
-	<SvelteMarkdown source={page.description} />
-	{/if}
-	{#if page.ticketDetails.length > 0}
-		<div
-			class="mx-8 my-6 flex gap-2 max-w-screen h-72 text-xl font-semibold text-justify items-center"
-		>
-			{#each page.ticketDetails as props (props)}
-				{#if props.thumbnail.url}
-					<a href={props.link}>
-						<img src={props.thumbnail.url} alt="" class="px-5 rounded w-60 h-60" />
-					</a>
-				{/if}
-			{/each}
-		</div>
-	{/if}
 	<Footer {logo} {footerNav} {socialMedia} />
 </div>
