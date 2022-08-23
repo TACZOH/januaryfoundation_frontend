@@ -9,7 +9,7 @@
 		const { data } = await axios.get(`${config.ENDPOINT_URL}raffle`);
 
 		const global = await axios.get(`${config.ENDPOINT_URL}global`);
-		const resHeader = await axios.get(`${config.ENDPOINT_URL}raffle-header`);
+		const resHeader = await axios.get(`${config.ENDPOINT_URL}header`);
 		const resFooter = await axios.get(`${config.ENDPOINT_URL}footer`);
 
 		const logo: string = global.data.logo.url;
@@ -131,21 +131,21 @@
 		for (let j = 0; j < footer[i].subitems.length; j++) {
 			const desc = footer[i]?.subitems[j]?.description?.split(`\n`) || [];
 			let feeHeader = 1;
-			// if (navData[i].subitems[j]?.feesType === 'individual') {
-			// 	feeHeader = 1;
-			// }
-			// if (navData[i].subitems[j]?.feesType === 'raffle') {
-			// 	feeHeader = 5;
-			// }
-			// if (navData[i].subitems[j]?.feesType === 'business') {
-			// 	feeHeader = 10;
-			// }
-			// if (navData[i].subitems[j]?.feesType === 'institution') {
-			// 	feeHeader = 100;
-			// }
-			// if (navData[i].subitems[j]?.feesType === 'nomination') {
+			if (navData[i].subitems[j]?.feesType === 'individual') {
+				feeHeader = 1;
+			}
+			if (navData[i].subitems[j]?.feesType === 'raffle') {
+				feeHeader = 5;
+			}
+			if (navData[i].subitems[j]?.feesType === 'business') {
 				feeHeader = 10;
-			// }
+			}
+			if (navData[i].subitems[j]?.feesType === 'institution') {
+				feeHeader = 100;
+			}
+			if (navData[i].subitems[j]?.feesType === 'nomination') {
+				feeHeader = 10;
+			}
 			let subObj = {
 				text: footer[i]?.subitems[j]?.text || '',
 				link: footer[i]?.subitems[j]?.link || '',

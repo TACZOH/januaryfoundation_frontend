@@ -36,7 +36,7 @@
 	import SvelteSeo from 'svelte-seo';
 	import { setSubitems } from '$lib/menuSubitems';
 	import type { MenuSubitems, MenuSubitem } from '$lib/types';
-	import { fees } from '$lib/fees';
+	import { onMount } from 'svelte';
 
 	export let logo: string;
 	export let page: IHomePage;
@@ -45,6 +45,17 @@
 	export let footer: any;
 	export let socialMedia: any;
 
+	let Carousel: any; // for saving Carousel component class
+	
+	export let carousel: { goToNext: () => void }; // for calling methods of the carousel instance
+	onMount(async () => {
+		// @ts-ignore
+		const module = await import('svelte-carousel');
+		Carousel = module.default;
+	});
+	const handleNextClick = () => {
+		carousel.goToNext();
+	};
 
 	const applications: MenuSubitem[] = [];
 
@@ -153,12 +164,19 @@
 
 <SvelteSeo title={page?.SEO?.title} description={page?.SEO?.description} {keywords} />
 
-<div class='bg-white overflow-hidden shadow divide-y divide-gray-200'>
+<div class='bg-white overflow-hidden shadow'>
 
 <Header {logo} {nav} />
-
+<hr />
+<div class="w-4/5 mx-auto my-4">
+	<svelte:component this={Carousel} bind:this={carousel} autoplay arrows={false}>
+		{#each page.image as { url } (url)}
+			<img src={url} alt="" />
+		{/each}
+	</svelte:component>
+</div>
 <HomeBlock {page} />
-
+<hr />
 <Footer {logo} {footerNav} {socialMedia} />
 
 </div>

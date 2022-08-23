@@ -7,7 +7,7 @@
 		const { slug } = params;
 		const {data} = await axios.get(`${config.ENDPOINT_URL}raffle-applications?slug=${slug}`);
 		const global = await axios.get(`${config.ENDPOINT_URL}global`);
-		const resHeader = await axios.get(`${config.ENDPOINT_URL}raffle-header`);
+		const resHeader = await axios.get(`${config.ENDPOINT_URL}header`);
 		const resFooter = await axios.get(`${config.ENDPOINT_URL}footer`);
 
 		const logo: string = global.data.logo.url

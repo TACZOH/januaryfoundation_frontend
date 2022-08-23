@@ -6,7 +6,7 @@ export type IHomePage = {
     created_at: string;
     updated_at: string;
     SEO: SEO;
-    image: Image;
+    image: any;
     Body: string;
     Title: string;
 }
