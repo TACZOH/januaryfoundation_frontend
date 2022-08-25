@@ -154,14 +154,15 @@
 	<Header {logo} {nav} />
 	<div class="mx-8 max-w-screen flex gap-6 items-center">
 		<Form {type} fee={page.fees} page={page}/>
-	
-		<div class="w-1/2">
-			<svelte:component this={Carousel} bind:this={carousel} autoplay>
-			{#each page.slider as { url } (url)}
-				<img src={url} alt="" class="max-w-40 h-80" />
-			{/each}
-		</svelte:component>
-		</div>
+		{#if page.slider.length > 0}
+			<div class="w-1/2">
+				<svelte:component this={Carousel} bind:this={carousel} autoplay>
+				{#each page.slider as { url } (url)}
+					<img src={url} alt="" class="max-w-40 h-80" />
+				{/each}
+			</svelte:component>
+			</div>
+		{/if}
 	</div>
 	<Footer {logo} {footerNav} {socialMedia} />
 </div>

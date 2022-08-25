@@ -211,6 +211,14 @@
 							{/if}
 							<div class="pt-8">
 								<div>
+									{#if type === "raffle"}
+										<h3 class="text-lg leading-6 font-medium text-gray-900 capitalize">
+											{page?.column?.title}
+										</h3>
+										<p class="mt-1 text-sm text-gray-500">
+											{page?.column?.description}
+										</p>
+									{:else}
 									<h3 class="text-lg leading-6 font-medium text-gray-900 capitalize">
 										{type === "business" || type === "institution" ? type : "Personal"} Information
 									</h3>
@@ -219,6 +227,7 @@
 											? "of your organization"
 											: ""} where you can receive mail.
 									</p>
+									{/if}
 								</div>
 								<div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
 									{#if type === "business" || type === "institution"}
