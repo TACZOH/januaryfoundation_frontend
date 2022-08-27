@@ -11,6 +11,7 @@ export const age = writable(false)
 export const website = writable(false)
 export const fName = writable(false)
 export const lName = writable(false)
+export const tellUsAboutYourBusiness = writable(false)
 
 export const countries = writable(country.names().sort());
 export const selectedCountry = writable("United States");

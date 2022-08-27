@@ -4,6 +4,7 @@ export type Data = {
         Email: string;
         PhoneNumber: string;
         Website: string;
+        tellUsAboutYourBusiness: string;
     };
     PhysicalLocation: {
         country: string;

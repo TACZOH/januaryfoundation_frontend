@@ -6,12 +6,13 @@
 	import Email from "./Email.svelte";
 
 	let valid = false;
-
+	export let yourselfTitle: string;
 	export let value: IBusinessInstitutions = {
 		OrganizationLegalName: "",
 		Email: "",
 		PhoneNumber: "",
 		Website: "",
+		tellUsAboutYourBusiness: ""
 	};
 
 	$: {
@@ -37,7 +38,7 @@
 	</div>
 </div>
 
-<Email bind:value={value.Email} />
+<Email bind:value={value.Email} title='Email Address' />
 
 <div class="sm:col-span-3">
 	<label for="phone" class="block text-sm font-medium text-gray-700"> Phone number </label>
@@ -61,6 +62,23 @@
 </div>
 
 <Website bind:value={value.Website} />
+
+<div class="sm:col-span-3">
+	<label for="tellUsAboutYourBusiness" class="block text-sm font-medium text-gray-700">
+		{yourselfTitle}
+	</label>
+	<div class="mt-1">
+		<textarea
+			bind:value={value.tellUsAboutYourBusiness}
+			id="tellUsAboutYourBusiness"
+			name="Tell Us About Your Business"
+			type="text"
+			required
+			autocomplete="organization"
+			rows={2}
+			class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
+	</div>
+</div>
 
 <!-- <div class="sm:col-span-6">
 	<PrincipalOwners bind:value={value.PrincipalOwners} />

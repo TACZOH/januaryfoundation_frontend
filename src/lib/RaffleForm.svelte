@@ -231,7 +231,7 @@
 								</div>
 								<div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
 									{#if type === "business" || type === "institution"}
-										<OrganizationDetails bind:value={data.Organization} />
+										<div></div>
 									{:else if type === "nomination"}
 										<FullName bind:value={data.FullName} title='Full name' />
 										<Email bind:value={data.Email} title='

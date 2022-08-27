@@ -148,12 +148,12 @@
 </script>
 
 <SvelteSeo
-	title="Institution Grant"
-	description="Institution Grant Application"
-	keywords="institution, grant, application"
+	title="Community Benefit Grant"
+	description="Community Benefit Application"
+	keywords="community, grant, application"
 	openGraph={{
-		title: 'Institution Grant',
-		description: 'Institution Grant Application',
+		title: 'Community Grant',
+		description: 'Community Grant Application',
 		type: 'website'
 	}}
 />

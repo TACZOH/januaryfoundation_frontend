@@ -7,4 +7,5 @@ export type IBusinessInstitutions = {
   Email: string;
   PhoneNumber: string;
   Website: string;
+  tellUsAboutYourBusiness: string;
 }

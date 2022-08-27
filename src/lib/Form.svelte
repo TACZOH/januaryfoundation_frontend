@@ -2,7 +2,7 @@
 	import type { FormType, Data } from "$lib/types";
 	import { fee as defaultFee } from "$lib/fees";
 	import { date } from "$lib/date";
-	import { name, website, email, phone } from "$lib/stores";
+	import { name, website, email, phone, tellUsAboutYourBusiness } from "$lib/stores";
 	import { selectedCountry, selectedState, PhoneNumber, state as manualState } from "$lib/stores";
 
 	import { paymentModal } from "$lib/stores";
@@ -47,6 +47,7 @@
 			Email: "",
 			PhoneNumber: "",
 			Website: "",
+			tellUsAboutYourBusiness: ""
 		},
 		PhysicalLocation: {
 			country: $selectedCountry,
@@ -73,14 +74,15 @@
 	$: disabled = true;
 	$: switch (type) {
 		case "individual":
-			disabled = !($name && $email);
+			disabled = !($name && $email && tellUsAboutYourBusiness);
 			break;
 		case "business":
 			disabled = !(
 				data.Organization.OrganizationLegalName.length > 0 &&
 				$email &&
 				$website &&
-				$phone
+				$phone && 
+				$tellUsAboutYourBusiness
 			);
 			break;
 		case "institution":
@@ -88,7 +90,8 @@
 				data.Organization.OrganizationLegalName.length > 0 &&
 				$email &&
 				$website &&
-				$phone
+				$phone && 
+				$tellUsAboutYourBusiness
 			);
 			break;
 		case "nomination":
@@ -106,7 +109,7 @@
 	const onSubmit = async () => {
 		switch (type) {
 			case "individual":
-				if ($name && $email) {
+				if ($name && $email && $tellUsAboutYourBusiness) {
 					form.valid = true;
 					form.data = form.data;
 					form.data = form.define.application.individual(data);
@@ -116,7 +119,7 @@
 				}
 				break;
 			case "business":
-				if (data.Organization.OrganizationLegalName !== "" && $email && $website && $phone) {
+				if (data.Organization.OrganizationLegalName !== "" && $email && $website && $phone && $tellUsAboutYourBusiness) {
 					data.Organization.PhoneNumber = data.Organization.PhoneNumber;
 					data.Organization.PhoneNumber = PhoneCheck($PhoneNumber).phoneNumber ?? $PhoneNumber;
 					form.valid = true;
@@ -230,7 +233,7 @@
 								</div>
 								<div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
 									{#if type === "business" || type === "institution"}
-										<OrganizationDetails bind:value={data.Organization} />
+										<OrganizationDetails bind:value={data.Organization} yourselfTitle={type === "institution" ? 'In a few words tell us about your community and how can we be of help.' : 'In a few words tell us about your business and how can we be of help.'} />
 									{:else if type === "nomination"}
 										<FullName bind:value={data.FullName} title='Full name
 										' />
@@ -241,6 +244,23 @@
 										'/>
 										<Email bind:value={data.Email} title='Email address
 										'/>
+										
+										<div class="sm:col-span-3">
+											<label for="tellUsAboutYourBusiness" class="block text-sm font-medium text-gray-700">
+												In a few words tell us about your yourself and how can we be of help.
+											</label>
+											<div class="mt-1">
+												<textarea
+													bind:value={data.Organization.tellUsAboutYourBusiness}
+													id="tellUsAboutYourBusiness"
+													name="Tell Us About Your Business"
+													type="text"
+													required
+													autocomplete="organization"
+													rows={2}
+													class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
+											</div>
+										</div>
 										<!-- <ID bind:value={data.idNumber} /> -->
 										<!-- <Phone /> -->
 										<!-- <Birthday bind:value={data.birthdate} /> -->
@@ -290,8 +310,8 @@
 									type="submit"
 									{disabled}
 									class={disabled
-										? `ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500`
-										: `ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+										? `ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 cursor-pointer`
+										: `ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer`}
 									>Continue
 								</button>
 							</div>
