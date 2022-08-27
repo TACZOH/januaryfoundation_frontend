@@ -247,7 +247,7 @@
 										
 										<div class="sm:col-span-3">
 											<label for="tellUsAboutYourBusiness" class="block text-sm font-medium text-gray-700">
-												In a few words tell us about your yourself and how can we be of help.
+												In a few words tell us about yourself and how can we be of help.
 											</label>
 											<div class="mt-1">
 												<textarea
