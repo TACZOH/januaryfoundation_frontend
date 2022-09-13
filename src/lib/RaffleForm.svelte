@@ -27,7 +27,8 @@
 	export let type: FormType;
 	export let fee: number | undefined = undefined;
 	export let page: any
-	
+	export let user: any;
+
 	export let form = new Form(type);
 	const paypal = new PayPal(
 		type,
@@ -48,13 +49,14 @@
 			Email: "",
 			PhoneNumber: "",
 			Website: "",
+			tellUsAboutYourBusiness: ""
 		},
 		PhysicalLocation: {
 			country: $selectedCountry,
 			state: $selectedState,
 		},
-		FullName: "",
-		Email: "",
+		FullName: user?.userName || "",
+		Email: user?.email || "",
 		PhoneNumber: $PhoneNumber,
 		birthdate: "",
 		idNumber: "",

@@ -2,7 +2,55 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" href="https://january-foundation.sfo3.cdn.digitaloceanspaces.com/fb77cf5cee3e310373343ad44e073b5b.png" />
+		<link
+			rel="icon"
+			href="https://january-foundation.sfo3.cdn.digitaloceanspaces.com/fb77cf5cee3e310373343ad44e073b5b.png"
+		/>
+		<meta
+			name="google-signin-client_id"
+			content="273759435966-jvg4eda6ek6f12nuj31iqf87omeafqr6.apps.googleusercontent.com"
+		/>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
+		</script>
+		<script src="https://apis.google.com/js/client:platform.js?onload=start" async defer>
+		</script>
+		<script>
+			function start() {
+				gapi.load('auth2', function() {
+					auth2 = gapi.auth2.init({
+						client_id: '273759435966-jvg4eda6ek6f12nuj31iqf87omeafqr6.apps.googleusercontent.com'
+					});
+				});
+			}
+		</script>
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+  <script src="https://apis.google.com/js/api:client.js"></script>
+  <script>
+  var googleUser = {};
+  var startApp = function() {
+    gapi.load('auth2', function(){
+      auth2 = gapi.auth2.init({
+        client_id: '273759435966-jvg4eda6ek6f12nuj31iqf87omeafqr6.apps.googleusercontent.com',
+        cookiepolicy: 'single_host_origin',
+				plugin_name: 'sample_pwa_login'
+      });
+      attachSignin(document.getElementById('customBtn'));
+    });
+  };
+
+  function attachSignin(element) {
+    auth2.attachClickHandler(element, {},
+        function(googleUser) {
+          localStorage.setItem('username', googleUser.getBasicProfile().getName())
+          localStorage.setItem('email', googleUser.getBasicProfile().getEmail())
+          if(googleUser.getBasicProfile().getName()){
+            window.location.href ='/'
+          }
+        }, function(error) {
+          console.log(JSON.stringify(error, undefined, 2));
+        });
+  }
+  </script>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		%sveltekit.head%
 	</head>

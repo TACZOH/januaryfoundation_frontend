@@ -3,7 +3,7 @@
 	export let value: string;
 	export let title: string | undefined;
 
-	let valid: boolean;
+	let valid: boolean = true;
 
 	const onInput = () => {
 		valid = validate.name(value);

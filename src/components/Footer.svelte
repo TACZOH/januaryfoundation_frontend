@@ -55,28 +55,33 @@
 			</div>
 			<div class="xl:col-span-1">
 				<img class="h-32" src={logo} alt="January Foundation" />
-				<div class="text-xs text-gray-700 capitalize font-semibold">
-					<SvelteMarkdown source={socialMedia?.rightsText} />
-				</div>
+				{#if socialMedia?.rightsText}
+					<div class="text-xs text-gray-700 capitalize font-semibold">
+						<SvelteMarkdown source={socialMedia?.rightsText} />
+					</div>
+				{/if}
 				<div class="flex space-x-6 mt-6">
 					{#if socialMedia?.facebook}
-					<a
-						href={socialMedia?.facebook}
-						class="text-gray-400 hover:text-gray-500">
-						<span class="sr-only">Facebook</span>
-						<Icon class="h-6 w-6" icon="ci:facebook" /></a>
+						<a
+							href={socialMedia?.facebook}
+							class="text-gray-400 hover:text-gray-500">
+								<span class="sr-only">Facebook</span>
+								<Icon class="h-6 w-6" icon="ci:facebook" />
+						</a>
 					{/if}
 					{#if socialMedia?.twitter}
-					<a href={socialMedia?.twitter} class="text-gray-400 hover:text-gray-500">
-						<span class="sr-only">Twitter</span>
-						<Icon class="h-6 w-6" icon="ci:twitter" /></a>
+						<a href={socialMedia?.twitter} class="text-gray-400 hover:text-gray-500">
+							<span class="sr-only">Twitter</span>
+							<Icon class="h-6 w-6" icon="ci:twitter" />
+						</a>
 					{/if}
 					{#if socialMedia?.linkedin}
-					<a
-						href={socialMedia?.linkedin}
-						class="text-gray-400 hover:text-gray-500">
-						<span class="sr-only">Linkedin</span>
-						<Icon class="h-6 w-6" icon="ci:linkedin" /></a>
+						<a
+							href={socialMedia?.linkedin}
+							class="text-gray-400 hover:text-gray-500">
+							<span class="sr-only">Linkedin</span>
+							<Icon class="h-6 w-6" icon="ci:linkedin" />
+						</a>
 					{/if}
 
 				</div>
@@ -88,7 +93,9 @@
 			</p>
 		</div> -->
 		<div class="mt-8 text-xs font-semibold text-black/80">
-			<SvelteMarkdown source={socialMedia?.copyrightText} />
+			{#if socialMedia?.copyrightText}
+				<SvelteMarkdown source={socialMedia?.copyrightText} />
+			{/if}
 
 			<div class="mt-4 grid place-items-center">
 				<Donate colors="bg-red-600 hover:bg-red-700 focus:ring-red-500" />

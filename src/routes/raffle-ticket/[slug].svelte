@@ -38,7 +38,13 @@
 	export let socialMedia: any;
 	export let page: any;
 	let Carousel: any; // for saving Carousel component class
+	export let user: any = { userName: '', email: ''};
 	
+	if(typeof localStorage !== 'undefined'){
+			const userName = localStorage.getItem('username') || '';
+			const email = localStorage.getItem('email') || '';
+			user = {userName, email}
+		}
 	export let carousel: { goToNext: () => void }; // for calling methods of the carousel instance
 	onMount(async () => {
 		// @ts-ignore
@@ -153,7 +159,7 @@
 
 	<Header {logo} {nav} />
 	<div class="mx-8 max-w-screen flex gap-6 items-center">
-		<Form {type} fee={page.fees} page={page}/>
+		<Form {type} fee={page.fees} page={page} {user}/>
 		{#if page.slider.length > 0}
 			<div class="w-1/2">
 				<svelte:component this={Carousel} bind:this={carousel} autoplay>
