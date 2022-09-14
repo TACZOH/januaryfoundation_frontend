@@ -43,8 +43,6 @@
 	import { onMount } from 'svelte';
 
 	export let logo: string;
-	export let page: IHomePage;
-	export let keywords: string;
 	export let navData: any;
 	export let footer: any;
 	export let socialMedia: any;

@@ -40,10 +40,7 @@
 	import { onMount } from 'svelte';
 	// import { user } from '../auth'
 	// console.log(user);
-	import Protected from '../components/Protected.svelte'
 	export let logo: string;
-	export let page: IHomePage;
-	export let keywords: string;
 	export let navData: any;
 	export let footer: any;
 	export let socialMedia: any;
