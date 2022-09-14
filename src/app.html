@@ -10,47 +10,58 @@
 			name="google-signin-client_id"
 			content="273759435966-jvg4eda6ek6f12nuj31iqf87omeafqr6.apps.googleusercontent.com"
 		/>
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
-		</script>
-		<script src="https://apis.google.com/js/client:platform.js?onload=start" async defer>
-		</script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
+		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css" />
+		<script src="https://apis.google.com/js/api:client.js" crossorigin="anonymous"></script>
 		<script>
-			function start() {
-				gapi.load('auth2', function() {
+			var googleUser = {};
+			var startApp = function () {
+				gapi.load('auth2', function () {
 					auth2 = gapi.auth2.init({
-						client_id: '273759435966-jvg4eda6ek6f12nuj31iqf87omeafqr6.apps.googleusercontent.com'
+						client_id: '273759435966-jvg4eda6ek6f12nuj31iqf87omeafqr6.apps.googleusercontent.com',
+						cookiepolicy: 'single_host_origin',
+						plugin_name: 'sample_pwa_login',
 					});
+					attachSignin(document.getElementById('customBtn'), auth2);
 				});
+			};
+			function attachSignin(element, auth2) {
+				var signedIn = auth2.isSignedIn.get();
+				if (signedIn) {
+					//Call signedInCallback yourself
+					signedInCallback(signedIn);
+				} else {
+					//Get Callback when Login With Google is clicked and authenticated
+					auth2.isSignedIn.listen(signedInCallback);
+
+					auth2.attachClickHandler(
+						element,
+						{},
+						function (currentUser) {
+							//No need to do anything here with currentUser, signedInCallback will be called.
+							localStorage.setItem('username', currentUser.getBasicProfile().getName());
+							localStorage.setItem('email', currentUser.getBasicProfile().getEmail());
+						},
+						function (error) {
+							//Will also get error if the user just closes the popup
+							console.log(JSON.stringify(error, undefined, 2));
+						}
+					);
+				}
+				function signedInCallback(signedIn) {
+					if (signedIn) {
+						var currentUser = auth2.currentUser.get();
+						var authResponse = currentUser.getAuthResponse();
+						//Get Token from authResponse
+
+						var basicProfile = currentUser.getBasicProfile();
+						localStorage.setItem('username', basicProfile.getName());
+						localStorage.setItem('email', basicProfile.getEmail());
+					}
+				}
 			}
 		</script>
-	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
-  <script src="https://apis.google.com/js/api:client.js"></script>
-  <script>
-  var googleUser = {};
-  var startApp = function() {
-    gapi.load('auth2', function(){
-      auth2 = gapi.auth2.init({
-        client_id: '273759435966-jvg4eda6ek6f12nuj31iqf87omeafqr6.apps.googleusercontent.com',
-        cookiepolicy: 'single_host_origin',
-				plugin_name: 'sample_pwa_login'
-      });
-      attachSignin(document.getElementById('customBtn'));
-    });
-  };
-
-  function attachSignin(element) {
-    auth2.attachClickHandler(element, {},
-        function(googleUser) {
-          localStorage.setItem('username', googleUser.getBasicProfile().getName())
-          localStorage.setItem('email', googleUser.getBasicProfile().getEmail())
-          if(googleUser.getBasicProfile().getName()){
-            window.location.href ='/'
-          }
-        }, function(error) {
-          console.log(JSON.stringify(error, undefined, 2));
-        });
-  }
-  </script>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		%sveltekit.head%
 	</head>

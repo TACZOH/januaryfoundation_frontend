@@ -38,8 +38,6 @@
 	import { setSubitems } from '$lib/menuSubitems';
 	import type { MenuSubitems, MenuSubitem } from '$lib/types';
 	import { onMount } from 'svelte';
-	// import { user } from '../auth'
-	// console.log(user);
 	export let logo: string;
 	export let navData: any;
 	export let footer: any;

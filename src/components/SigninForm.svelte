@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Email from '$lib/input/Email.svelte';
 	import axios from 'axios';
+	import { config } from '$lib/vars';
 
 	let data: any;
 	$: data = {
@@ -16,7 +17,7 @@
 		if (data.email && data.password) {
 			loading = true;
 			try {
-				const { data: apiRes } = await axios.post('http://localhost:1337/auth/local', {
+				const { data: apiRes } = await axios.post(`${config.ENDPOINT_URL}/auth/local`, {
 					identifier: data.email,
 					password: data.password
 				});
@@ -37,7 +38,6 @@
 			}
 		}
 	};
-	$: console.log(data);
 </script>
 
 <section class="h-screen">

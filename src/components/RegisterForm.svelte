@@ -3,6 +3,7 @@
 	import FullName from '$lib/input/FullName.svelte';
 
 	import axios from 'axios';
+	import { config } from '$lib/vars';
 
 	let data: any;
 	$: data = {
@@ -18,7 +19,7 @@
 		if (data.email && data.password && data.fullName) {
 			try {
 				loading = true
-				const { data: apiRes } = await axios.post('http://localhost:1337/auth/local/register', {
+				const { data: apiRes } = await axios.post(`${config.ENDPOINT_URL}/auth/local/register` , {
 					username: data.fullName,
 					email: data.email,
 					password: data.password
@@ -40,7 +41,6 @@
 			}
 		}
 	};
-	$: console.log(data);
 </script>
 
 <section class="h-screen">
@@ -60,7 +60,7 @@
 			</div>
 			<div class="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0">
 				<div class="flex flex-row items-center justify-center lg:justify-start">
-					<p class="text-sm font-semibold mt-2 mr-4 pt-1 mb-0">Sign in with</p>
+					<p class="text-sm font-semibold mt-2 mr-4 pt-1 mb-0">Sign up with</p>
 					<button
 						id="customBtn"
 						type="button"
