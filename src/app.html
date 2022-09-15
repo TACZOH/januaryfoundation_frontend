@@ -21,7 +21,7 @@
 					auth2 = gapi.auth2.init({
 						client_id: '273759435966-jvg4eda6ek6f12nuj31iqf87omeafqr6.apps.googleusercontent.com',
 						cookiepolicy: 'single_host_origin',
-						plugin_name: 'sample_pwa_login',
+						plugin_name: 'sample_pwa_login'
 					});
 					attachSignin(document.getElementById('customBtn'), auth2);
 				});
@@ -42,6 +42,7 @@
 							//No need to do anything here with currentUser, signedInCallback will be called.
 							localStorage.setItem('username', currentUser.getBasicProfile().getName());
 							localStorage.setItem('email', currentUser.getBasicProfile().getEmail());
+							location.href = '/';
 						},
 						function (error) {
 							//Will also get error if the user just closes the popup
