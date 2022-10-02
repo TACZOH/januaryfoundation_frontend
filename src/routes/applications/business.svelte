@@ -3,7 +3,7 @@
 	import axios from 'axios';
 	import { config } from '$lib/vars';
 	import SvelteMarkdown from 'svelte-markdown';
-	import '../styles.css'
+	import '../styles.css';
 
 	export const load: Load = async () => {
 		const {
@@ -123,8 +123,12 @@
 			if (navData[i].subitems[j]?.feesType === 'business') {
 				feeHeader = 10;
 			}
-			if (navData[i].subitems[j]?.feesType === 'institution') {
-				feeHeader = 100;
+			if (
+				navData[i].subitems[j]?.feesType === 'educationInstitution' ||
+				navData[i].subitems[j]?.feesType === 'communtiyBenefit' ||
+				navData[i].subitems[j]?.feesType === 'globalPartner'
+			) {
+				feeHeader = 25;
 			}
 			if (navData[i].subitems[j]?.feesType === 'nomination') {
 				feeHeader = 10;
@@ -162,11 +166,11 @@
 <div class="bg-white overflow-hidden shadow">
 	<Header {logo} {nav} />
 	<div class="py-4 max-w-3xl mx-auto mt-1 text-sm text-gray-500">
-		{#if page.title}
-		<h3 class="text-lg leading-6 font-medium text-gray-900 my-4 capitalize">{page?.title}</h3>
+		{#if page?.title}
+			<h3 class="text-lg leading-6 font-medium text-gray-900 my-4 capitalize">{page?.title}</h3>
 		{/if}
-		{#if page.description}
-		<SvelteMarkdown source={page?.description} />
+		{#if page?.description}
+			<SvelteMarkdown source={page?.description} />
 		{/if}
 	</div>
 	<Form {type} />

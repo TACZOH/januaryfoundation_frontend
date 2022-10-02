@@ -7,7 +7,7 @@
 
 	export const load: Load = async () => {
 		const {
-			data: { individual }
+			data: { globalPartner }
 		} = await axios.get(`${config.ENDPOINT_URL}application`);
 
 		const global = await axios.get(`${config.ENDPOINT_URL}global`);
@@ -16,8 +16,8 @@
 		const logo: string = global.data.logo.url;
 		return {
 			props: {
-				page: individual,
-				keywords: individual?.SEO?.keywords?.join(', '),
+				page: globalPartner,
+				keywords: globalPartner?.SEO?.keywords?.join(', '),
 				logo,
 				navData: resHeader?.data?.nav,
 				footer: resFooter?.data?.footer,
@@ -37,14 +37,13 @@
 	import { setSubitems } from '$lib/menuSubitems';
 	import type { MenuSubitems, MenuSubitem, FormType } from '$lib/types';
 
-	const type: FormType = 'individual';
+	const type: FormType = 'nomination';
 	export let logo: string;
 	export let navData: any;
 	export let footer: any;
 	export let socialMedia: any;
 	export let page: any;
 	const applications: MenuSubitem[] = [];
-
 	setSubitems('Individual').forEach((element) => {
 		applications.push(element);
 	});
@@ -152,12 +151,12 @@
 </script>
 
 <SvelteSeo
-	title="Individual Grant"
-	description="Individual Grant Application"
-	keywords="individual, grant, application"
+	title="Nomination Grant"
+	description="Nomination Grant Application"
+	keywords="nomination, grant, application"
 	openGraph={{
-		title: 'Individual Grant',
-		description: 'Individual Grant Application',
+		title: 'Nomination Grant',
+		description: 'Nomination Grant Application',
 		type: 'website'
 	}}
 />

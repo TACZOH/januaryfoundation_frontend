@@ -3,7 +3,7 @@
 	import axios from 'axios';
 	import { config } from '$lib/vars';
 	import SvelteMarkdown from 'svelte-markdown';
-	import '../styles.css'
+	import '../styles.css';
 
 	export const load: Load = async () => {
 		const { data } = await axios.get(`${config.ENDPOINT_URL}raffle`);
@@ -50,7 +50,7 @@
 	export let keywords: string;
 
 	let Carousel: any; // for saving Carousel component class
-	
+
 	export let carousel: { goToNext: () => void }; // for calling methods of the carousel instance
 	onMount(async () => {
 		// @ts-ignore
@@ -140,8 +140,12 @@
 			if (navData[i].subitems[j]?.feesType === 'business') {
 				feeHeader = 10;
 			}
-			if (navData[i].subitems[j]?.feesType === 'institution') {
-				feeHeader = 100;
+			if (
+				navData[i].subitems[j]?.feesType === 'educationInstitution' ||
+				navData[i].subitems[j]?.feesType === 'communtiyBenefit' ||
+				navData[i].subitems[j]?.feesType === 'globalPartner'
+			) {
+				feeHeader = 25;
 			}
 			if (navData[i].subitems[j]?.feesType === 'nomination') {
 				feeHeader = 10;
@@ -176,9 +180,9 @@
 			{/each}
 		</svelte:component>
 	</div>
-	<h2 class='text-center my-4'>{page.title}</h2>
+	<h2 class="text-center my-4">{page.title}</h2>
 	{#if page.description}
-	<SvelteMarkdown source={page.description} />
+		<SvelteMarkdown source={page.description} />
 	{/if}
 	{#if page.ticketDetails.length > 0}
 		<div

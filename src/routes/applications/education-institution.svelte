@@ -3,11 +3,11 @@
 	import axios from 'axios';
 	import { config } from '$lib/vars';
 	import SvelteMarkdown from 'svelte-markdown';
-	import '../styles.css'
+	import '../styles.css';
 
 	export const load: Load = async () => {
 		const {
-			data: { institution }
+			data: { educationInstitution }
 		} = await axios.get(`${config.ENDPOINT_URL}application`);
 
 		const global = await axios.get(`${config.ENDPOINT_URL}global`);
@@ -16,8 +16,8 @@
 		const logo: string = global.data.logo.url;
 		return {
 			props: {
-				page: institution,
-				keywords: institution?.SEO?.keywords?.join(', '),
+				page: educationInstitution,
+				keywords: educationInstitution?.SEO?.keywords?.join(', '),
 				logo,
 				navData: resHeader?.data?.nav,
 				footer: resFooter?.data?.footer,
@@ -37,7 +37,7 @@
 	import { setSubitems } from '$lib/menuSubitems';
 	import type { MenuSubitems, MenuSubitem, FormType } from '$lib/types';
 
-	const type: FormType = 'institution';
+	const type: FormType = 'individual';
 	export let logo: string;
 	export let navData: any;
 	export let footer: any;
@@ -123,8 +123,12 @@
 			if (navData[i].subitems[j]?.feesType === 'business') {
 				feeHeader = 10;
 			}
-			if (navData[i].subitems[j]?.feesType === 'institution') {
-				feeHeader = 100;
+			if (
+				navData[i].subitems[j]?.feesType === 'educationInstitution' ||
+				navData[i].subitems[j]?.feesType === 'communtiyBenefit' ||
+				navData[i].subitems[j]?.feesType === 'globalPartner'
+			) {
+				feeHeader = 25;
 			}
 			if (navData[i].subitems[j]?.feesType === 'nomination') {
 				feeHeader = 10;
@@ -148,12 +152,12 @@
 </script>
 
 <SvelteSeo
-	title="Community Benefit Grant"
-	description="Community Benefit Application"
-	keywords="community, grant, application"
+	title="Individual Grant"
+	description="Individual Grant Application"
+	keywords="individual, grant, application"
 	openGraph={{
-		title: 'Community Grant',
-		description: 'Community Grant Application',
+		title: 'Individual Grant',
+		description: 'Individual Grant Application',
 		type: 'website'
 	}}
 />
@@ -161,11 +165,11 @@
 <div class="bg-white overflow-hidden shadow">
 	<Header {logo} {nav} />
 	<div class="py-4 max-w-3xl mx-auto mt-1 text-sm text-gray-500">
-		{#if page.title}
-		<h3 class="text-lg leading-6 font-medium text-gray-900 my-4 capitalize">{page?.title}</h3>
+		{#if page?.title}
+			<h3 class="text-lg leading-6 font-medium text-gray-900 my-4 capitalize">{page?.title}</h3>
 		{/if}
-		{#if page.description}
-		<SvelteMarkdown source={page?.description} />
+		{#if page?.description}
+			<SvelteMarkdown source={page?.description} />
 		{/if}
 	</div>
 	<Form {type} />

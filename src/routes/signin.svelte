@@ -135,8 +135,12 @@
 			if (navData[i].subitems[j]?.feesType === 'business') {
 				feeHeader = 10;
 			}
-			if (navData[i].subitems[j]?.feesType === 'institution') {
-				feeHeader = 100;
+			if (
+				navData[i].subitems[j]?.feesType === 'educationInstitution' ||
+				navData[i].subitems[j]?.feesType === 'communtiyBenefit' ||
+				navData[i].subitems[j]?.feesType === 'globalPartner'
+			) {
+				feeHeader = 25;
 			}
 			if (navData[i].subitems[j]?.feesType === 'nomination') {
 				feeHeader = 10;
@@ -162,6 +166,6 @@
 <div class="bg-white overflow-hidden shadow">
 	<Header {logo} {nav} />
 	<SigninForm />
-	
+
 	<Footer {logo} {footerNav} {socialMedia} />
 </div>

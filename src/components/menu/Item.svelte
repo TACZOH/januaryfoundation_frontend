@@ -20,9 +20,11 @@
 {#if mobile}
 	{#if item.subitems.length > 0}
 		{#each item.subitems as subitem}
-			<a href={subitem.link}
-				 on:click={() => subitem.fee && ($fee = subitem.fee)}
-				 class='-m-3 p-3 flex items-center rounded-md hover:bg-gray-50'>
+			<a
+				href={subitem.link}
+				on:click={() => subitem.fee && ($fee = subitem.fee)}
+				class='-m-3 p-3 flex items-center rounded-md hover:bg-gray-50'
+			>
 				{#if subitem.icon}
 					<Icon icon={subitem.icon} class='flex-shrink-0 h-6 w-6 text-indigo-600' />
 				{/if}
@@ -32,8 +34,7 @@
 	{:else}
 		<div class='flex'>
 			<!-- <Icon icon="mdi:ticket" class="flex-shrink-0 h-6 w-6 text-indigo-600" /> -->
-			<a href={item.link}
-				 class='ml-3 text-base font-medium text-gray-900 hover:text-gray-700'>
+			<a href={item.link} class='ml-3 text-base font-medium text-gray-900 hover:text-gray-700'>
 				{item.text}
 			</a>
 		</div>
@@ -84,15 +85,15 @@
 										on:click={() => subitem.fee && ($fee = subitem.fee)}
 										class='-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50'
 									>
-											<Icon icon={subitem.icon} class='flex-shrink-0 h-6 w-6 text-indigo-600' />
-											<div class='ml-4'>
-												<p class='text-base font-medium text-gray-900'>{subitem.text}</p>
-												{#if subitem.description}
-													{#each subitem.description as desc}
-														<p class='mt-1 text-sm text-gray-700'>{desc ? `• ${desc}` : ''}</p>
-													{/each}
-												{/if}
-											</div>
+										<Icon icon={subitem.icon} class='flex-shrink-0 h-6 w-6 text-indigo-600' />
+										<div class='ml-4'>
+											<p class='text-base font-medium text-gray-900'>{subitem.text}</p>
+											{#if subitem.description}
+												{#each subitem.description as desc}
+													<p class='mt-1 text-sm text-gray-700'>{desc ? `• ${desc}` : ''}</p>
+												{/each}
+											{/if}
+										</div>
 									</PopoverButton>
 								{/each}
 							</div>

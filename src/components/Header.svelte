@@ -4,7 +4,11 @@
 	import DonateModal from '$lib/modals/DonateModal.svelte';
 
 	export let logo: string;
-
+	let isLoggedIn: boolean;
+	if (typeof localStorage !== 'undefined') {
+		const userName = localStorage.getItem('username') || '';
+		isLoggedIn = userName ? true : false;
+	}
 	export let nav: {
 		text: string;
 		link: string;
@@ -16,6 +20,13 @@
 			fee?: number;
 		}[];
 	}[];
+	function signout() {
+		if (typeof localStorage !== 'undefined') {
+			localStorage.removeItem('username');
+			localStorage.removeItem('email');
+			isLoggedIn = false;
+		}
+	}
 	$: open = false;
 </script>
 
@@ -56,6 +67,19 @@
 			{#each nav as item}
 				<Item {item} />
 			{/each}
+			{#if isLoggedIn}
+				<div
+					class="hidden cursor-pointer text-base font-medium text-gray-500 hover:text-gray-900 md:flex"
+					on:click={() => signout()}
+				>
+					Sign out
+				</div>
+			{:else}
+				<a
+					href="/signin"
+					class="hidden text-base font-medium text-gray-500 hover:text-gray-900 md:flex">Sign in</a
+				>
+			{/if}
 			<div class="hidden md:flex">
 				<Donate colors="bg-blue-600 hover:bg-blue-700 focus:ring-blue-500" />
 			</div>
@@ -101,6 +125,13 @@
 					{#each nav as item}
 						<Item {item} mobile={true} />
 					{/each}
+					{#if isLoggedIn}
+						<div class="ml-4 text-base font-medium text-gray-900" on:click={() => signout()}>
+							Sign out
+						</div>
+					{:else}
+						<a href="/signin" class="ml-4 text-base font-medium text-gray-900">Sign in</a>
+					{/if}
 				</div>
 			</div>
 		</div>
