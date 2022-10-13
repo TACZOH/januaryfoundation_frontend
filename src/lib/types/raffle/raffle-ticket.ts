@@ -1,14 +1,16 @@
 import type { Image } from '$lib/types';
 
-export type IBlogPost = {
+export type IRaffleTicketsList = {
 	id: number;
 	title: string;
 	slug: string;
 	description: string;
 	date?: string;
-	image: Image;
-	content: string;
+	slider?: any;
+	content?: string;
 	published_at: string;
 	created_at: string;
 	updated_at: string;
+	length?: number;
+	column?: any;
 };

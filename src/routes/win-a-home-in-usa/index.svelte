@@ -1,13 +1,12 @@
 <script context="module" lang="ts">
+	import { page as pages } from '$lib/page';
+	import type { IRafflePage } from '$lib/types';
 	import type { Load } from '@sveltejs/kit';
 	import axios from 'axios';
 	import { config } from '$lib/vars';
-	import SvelteMarkdown from 'svelte-markdown';
-	import '../styles.css';
 
 	export const load: Load = async () => {
-		const { data } = await axios.get(`${config.ENDPOINT_URL}raffle`);
-
+		const data: IRafflePage = await pages.raffle();
 		const global = await axios.get(`${config.ENDPOINT_URL}global`);
 		const resHeader = await axios.get(`${config.ENDPOINT_URL}header`);
 		const resFooter = await axios.get(`${config.ENDPOINT_URL}footer`);
@@ -33,33 +32,23 @@
 </script>
 
 <script lang="ts">
+	import { raffleList } from '$lib/data';
+	import SvelteSeo from 'svelte-seo';
+	export let page: any;
+	export let keywords: string;
+
 	import '../../app.css';
 	import Header from '../../components/Header.svelte';
 	import Footer from '../../components/Footer.svelte';
-	import SvelteSeo from 'svelte-seo';
 	import { setSubitems } from '$lib/menuSubitems';
 	import type { MenuSubitems, MenuSubitem, FormType } from '$lib/types';
-	import { onMount } from 'svelte';
 
-	const type: FormType = 'raffle';
+	const type: FormType = 'business';
 	export let logo: string;
 	export let navData: any;
 	export let footer: any;
 	export let socialMedia: any;
-	export let page: any;
-	export let keywords: string;
 
-	let Carousel: any; // for saving Carousel component class
-
-	export let carousel: { goToNext: () => void }; // for calling methods of the carousel instance
-	onMount(async () => {
-		// @ts-ignore
-		const module = await import('svelte-carousel');
-		Carousel = module.default;
-	});
-	const handleNextClick = () => {
-		carousel.goToNext();
-	};
 	const applications: MenuSubitem[] = [];
 
 	setSubitems('Individual').forEach((element) => {
@@ -140,12 +129,8 @@
 			if (navData[i].subitems[j]?.feesType === 'business') {
 				feeHeader = 10;
 			}
-			if (
-				navData[i].subitems[j]?.feesType === 'educationInstitution' ||
-				navData[i].subitems[j]?.feesType === 'communtiyBenefit' ||
-				navData[i].subitems[j]?.feesType === 'globalPartner'
-			) {
-				feeHeader = 25;
+			if (navData[i].subitems[j]?.feesType === 'institution') {
+				feeHeader = 100;
 			}
 			if (navData[i].subitems[j]?.feesType === 'nomination') {
 				feeHeader = 10;
@@ -169,33 +154,38 @@
 </script>
 
 <SvelteSeo title={page?.SEO?.title} description={page?.SEO?.description} {keywords} />
-
-<div class="bg-white overflow-hidden shadow px-6">
+<div class="bg-white overflow-hidden shadow divide-y divide-gray-200">
 	<Header {logo} {nav} />
+	<section class="max-w-7xl mx-auto flex flex-col items-center">
+		<h2 class="md:text-5xl text-3xl font-bold my-5">{page?.title}</h2>
+		{#if page?.description}
+			<p class="md:text-md text-md mb-32 text-center px-12">{page?.description}</p>
+		{/if}
 
-	<div class="w-4/5 mx-auto my-4">
-		<svelte:component this={Carousel} bind:this={carousel} autoplay arrows={false}>
-			{#each page.slider as { url } (url)}
-				<img src={url} alt="" class="max-w-40 h-80" />
-			{/each}
-		</svelte:component>
-	</div>
-	<h2 class="text-center my-4">{page.title}</h2>
-	{#if page.description}
-		<SvelteMarkdown source={page.description} />
-	{/if}
-	{#if page.ticketDetails.length > 0}
-		<div
-			class="mx-8 my-6 flex gap-2 max-w-screen h-72 text-xl font-semibold text-justify items-center"
-		>
-			{#each page.ticketDetails as props (props)}
-				{#if props.thumbnail.url}
-					<a href={props.link}>
-						<img src={props.thumbnail.url} alt="" class="px-5 rounded w-60 h-60" />
+		<div class="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3 max-w-7xl mx-auto">
+			{#await raffleList}
+				<h1>Loading...</h1>
+			{:then raffleList}
+				{#each raffleList as raffle}
+					<a
+						href={`/win-a-home-in-usa/${raffle.slug}`}
+						class="overflow-hidden bg-white shadow-lg border border-slate-100 cursor-pointer group rounded-2xl last:mr-0 lg:mr-6 lg:mb-10"
+					>
+						<div class="flex flex-col p-5">
+							<h1 class="mb-2 text-xl font-bold">{raffle.title}</h1>
+						</div>
+
+						<img
+							class="m-0 transition-transform duration-300 w-full max-h-60 group-hover:scale-110"
+							src={raffle?.slider[0]?.url}
+							loading="lazy"
+							alt={raffle.title}
+						/>
 					</a>
-				{/if}
-			{/each}
+				{/each}
+			{/await}
 		</div>
-	{/if}
+	</section>
+
 	<Footer {logo} {footerNav} {socialMedia} />
 </div>

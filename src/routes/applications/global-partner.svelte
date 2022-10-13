@@ -43,6 +43,13 @@
 	export let footer: any;
 	export let socialMedia: any;
 	export let page: any;
+	export let user: any = { userName: '', email: '' };
+
+	if (typeof localStorage !== 'undefined') {
+		const userName = localStorage.getItem('username') || '';
+		const email = localStorage.getItem('email') || '';
+		user = { userName, email };
+	}
 	const applications: MenuSubitem[] = [];
 	setSubitems('Individual').forEach((element) => {
 		applications.push(element);
@@ -171,7 +178,7 @@
 			<SvelteMarkdown source={page?.description} />
 		{/if}
 	</div>
-	<Form {type} />
+	<Form {type} {user} />
 
 	<Footer {logo} {footerNav} {socialMedia} />
 </div>

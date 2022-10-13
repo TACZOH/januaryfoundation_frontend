@@ -25,7 +25,7 @@
 				!valid && value.length > 0
 					? `focus:ring-red-500 focus:border-red-500 border-red-300`
 					: `focus:ring-indigo-500 focus:border-indigo-500 border-gray-300`
-			} block w-full sm:text-sm rounded-md`}
+			} block w-full sm:text-sm rounded-md py-3`}
 		/>
 		<p class={`mt-2 text-sm ${!valid && value.length > 0 ? `text-red-500` : `hidden`}`}>
 			Email is incorrect.

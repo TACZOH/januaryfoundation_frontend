@@ -1,18 +1,18 @@
 <script lang="ts">
-	import type { IBusinessInstitutions } from "$lib/types";
-	import { validate } from "$lib/formValidation";
-	import { PhoneNumber as phone } from "$lib/stores";
-	import Website from "./Website.svelte";
-	import Email from "./Email.svelte";
+	import type { IBusinessInstitutions } from '$lib/types';
+	import { validate } from '$lib/formValidation';
+	import { PhoneNumber as phone } from '$lib/stores';
+	import Website from './Website.svelte';
+	import Email from './Email.svelte';
 
 	let valid = false;
 	export let yourselfTitle: string;
 	export let value: IBusinessInstitutions = {
-		OrganizationLegalName: "",
-		Email: "",
-		PhoneNumber: "",
-		Website: "",
-		tellUsAboutYourBusiness: ""
+		OrganizationLegalName: '',
+		Email: '',
+		PhoneNumber: '',
+		Website: '',
+		tellUsAboutYourBusiness: ''
 	};
 
 	$: {
@@ -34,11 +34,12 @@
 			type="text"
 			required
 			autocomplete="organization"
-			class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
+			class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md py-3"
+		/>
 	</div>
 </div>
 
-<Email bind:value={value.Email} title='Email Address' />
+<Email bind:value={value.Email} title="Email Address" />
 
 <div class="sm:col-span-3">
 	<label for="phone" class="block text-sm font-medium text-gray-700"> Phone number </label>
@@ -54,7 +55,8 @@
 				!valid && value.PhoneNumber.length > 0
 					? `focus:ring-red-500 focus:border-red-500 border-red-300`
 					: `focus:ring-indigo-500 focus:border-indigo-500 border-gray-300`
-			} block w-full sm:text-sm rounded-md`} />
+			} block w-full sm:text-sm rounded-md py-3`}
+		/>
 		<p class={`mt-2 text-sm ${!valid && value.PhoneNumber.length > 0 ? `text-red-400` : `hidden`}`}>
 			Phone number doesn't match the correct format.
 		</p>
@@ -76,7 +78,8 @@
 			required
 			autocomplete="organization"
 			rows={2}
-			class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
+			class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+		/>
 	</div>
 </div>
 
