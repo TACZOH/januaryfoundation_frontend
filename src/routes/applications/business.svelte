@@ -180,6 +180,7 @@
 		{/if}
 	</div>
 	<Form {type} {user} />
+	<div id="contribute" class="max-w-3xl" />
 
 	<Footer {logo} {footerNav} {socialMedia} />
 </div>

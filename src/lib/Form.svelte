@@ -4,6 +4,7 @@
 	import { date } from '$lib/date';
 	import { name, website, email, phone, tellUsAboutYourBusiness } from '$lib/stores';
 	import { selectedCountry, selectedState, PhoneNumber, state as manualState } from '$lib/stores';
+	import { writable } from 'svelte/store';
 
 	import { paymentModal } from '$lib/stores';
 	import Payment from '$lib/modals/Payment.svelte';
@@ -39,7 +40,8 @@
 		fee
 	);
 	paypal.loadScript();
-
+	const username = writable(user.userName);
+	const userEmail = writable(user.email);
 	let data: Data;
 	$: data = {
 		Organization: {
@@ -54,8 +56,8 @@
 			country: $selectedCountry,
 			state: $selectedState
 		},
-		FullName: user?.userName || '',
-		Email: user?.email || '',
+		FullName: $username,
+		Email: $userEmail,
 		PhoneNumber: $PhoneNumber,
 		birthdate: '',
 		idNumber: '',
@@ -77,8 +79,11 @@
 				$email &&
 				$website &&
 				$phone &&
-				$tellUsAboutYourBusiness
+				data.Organization.tellUsAboutYourBusiness.length > 0
 			);
+			break;
+		case 'individual':
+			disabled = !($email && $name);
 			break;
 		case 'institution':
 			disabled = !(
@@ -86,7 +91,7 @@
 				$email &&
 				$website &&
 				$phone &&
-				$tellUsAboutYourBusiness
+				data.Organization.tellUsAboutYourBusiness.length > 0
 			);
 			break;
 		case 'nomination':
@@ -118,7 +123,7 @@
 					$email &&
 					$website &&
 					$phone &&
-					$tellUsAboutYourBusiness
+					data.Organization.tellUsAboutYourBusiness !== ''
 				) {
 					data.Organization.PhoneNumber = data.Organization.PhoneNumber;
 					data.Organization.PhoneNumber = PhoneCheck($PhoneNumber).phoneNumber ?? $PhoneNumber;
@@ -182,8 +187,6 @@
 		const paypal = document.getElementById('contribute')!;
 		paypal.parentNode!.removeChild(paypal);
 	}
-
-	$: console.log(data);
 </script>
 
 {#await type !== 'nomination' ? form.setNumber() : 0}
@@ -239,27 +242,11 @@
 												: 'In a few words tell us about your business and how can we be of help.'}
 										/>
 									{:else if type === 'nomination'}
-										<FullName
-											bind:value={data.FullName}
-											title="Full name
-										"
-										/>
-										<Email
-											bind:value={data.Email}
-											title="Email address
-										"
-										/>
+										<FullName bind:value={data.FullName} title="Full name" />
+										<Email bind:value={data.Email} title="Email address" />
 									{:else if type === 'individual'}
-										<FullName
-											bind:value={data.FullName}
-											title="Full name
-										"
-										/>
-										<Email
-											bind:value={data.Email}
-											title="Email address
-										"
-										/>
+										<FullName bind:value={data.FullName} title="Full name" />
+										<Email bind:value={data.Email} title="Email address" />
 
 										<div class="sm:col-span-3">
 											<label

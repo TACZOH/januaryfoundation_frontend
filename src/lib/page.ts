@@ -59,6 +59,17 @@ export const page: PromisePage = {
 				console.error(error);
 				return error;
 			});
+	},
+	grant: async (): Promise<IRafflePage> => {
+		return await axios
+			.get(`${config.ENDPOINT_URL}application`)
+			.then(async (response) => {
+				return await response.data;
+			})
+			.catch((error) => {
+				console.error(error);
+				return error;
+			});
 	}
 };
 
@@ -70,4 +81,5 @@ type PromisePage = {
 	};
 	blog: () => Promise<IBlogPage>;
 	raffle: () => Promise<IRafflePage>;
+	grant: () => Promise<IRafflePage>;
 };

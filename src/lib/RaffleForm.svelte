@@ -7,6 +7,7 @@
 
 	import { paymentModal } from '$lib/stores';
 	import Payment from '$lib/modals/Payment.svelte';
+	import { writable } from 'svelte/store';
 
 	import { config } from '$lib/vars';
 	import { Form } from '$lib/form';
@@ -41,7 +42,8 @@
 	);
 
 	paypal.loadScript();
-
+	const username = writable(user.userName);
+	const userEmail = writable(user.email);
 	let data: Data;
 	$: data = {
 		Organization: {
@@ -56,8 +58,8 @@
 			country: $selectedCountry,
 			state: $selectedState
 		},
-		FullName: user?.userName || '',
-		Email: user?.email || '',
+		FullName: $username,
+		Email: $userEmail,
 		PhoneNumber: $PhoneNumber,
 		birthdate: '',
 		idNumber: '',
