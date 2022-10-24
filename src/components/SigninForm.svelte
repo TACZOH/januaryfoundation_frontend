@@ -170,7 +170,7 @@
 
 						$(document).ready(function () {
 							FB.init({
-								appId: '655069166049000',
+								appId: '676251100098701',
 								autoLogAppEvents: true,
 								xfbml: true,
 								version: 'v15.0'
