@@ -7,7 +7,7 @@
 
 	export const load: Load = async () => {
 		const {
-			data: { communtiyBenefit }
+			data: { community }
 		} = await axios.get(`${config.ENDPOINT_URL}application`);
 
 		const global = await axios.get(`${config.ENDPOINT_URL}global`);
@@ -16,8 +16,8 @@
 		const logo: string = global.data.logo.url;
 		return {
 			props: {
-				page: communtiyBenefit,
-				keywords: communtiyBenefit?.SEO?.keywords?.join(', '),
+				page: community,
+				keywords: community?.SEO?.keywords?.join(', '),
 				logo,
 				navData: resHeader?.data?.nav,
 				footer: resFooter?.data?.footer,
@@ -130,9 +130,9 @@
 				feeHeader = 10;
 			}
 			if (
-				navData[i].subitems[j]?.feesType === 'educationInstitution' ||
-				navData[i].subitems[j]?.feesType === 'communtiyBenefit' ||
-				navData[i].subitems[j]?.feesType === 'globalPartner'
+				navData[i].subitems[j]?.feesType === 'education' ||
+				navData[i].subitems[j]?.feesType === 'community' ||
+				navData[i].subitems[j]?.feesType === 'partner'
 			) {
 				feeHeader = 25;
 			}

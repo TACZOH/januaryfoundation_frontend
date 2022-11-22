@@ -1,23 +1,23 @@
 <script context="module" lang="ts">
+	import { page as pages } from '$lib/page';
+	import { post as fetchPost } from '$lib/data';
+	import type { IBlogPage } from '$lib/types';
+
+	import type { IHomePage, IGlobal } from '$lib/types';
 	import type { Load } from '@sveltejs/kit';
 	import axios from 'axios';
 	import { config } from '$lib/vars';
-	import SvelteMarkdown from 'svelte-markdown';
-	import '../styles.css';
 
-	export const load: Load = async () => {
-		const {
-			data: { business }
-		} = await axios.get(`${config.ENDPOINT_URL}application`);
-
+	export const load: Load = async ({ params }) => {
+		const { slug } = params;
+		const data: any = await pages.customblog(slug);
 		const global = await axios.get(`${config.ENDPOINT_URL}global`);
 		const resHeader = await axios.get(`${config.ENDPOINT_URL}header`);
 		const resFooter = await axios.get(`${config.ENDPOINT_URL}footer`);
 		const logo: string = global.data.logo.url;
 		return {
 			props: {
-				page: business,
-				keywords: business?.SEO?.keywords?.join(', '),
+				page: data && data?.length > 0 ? data[0] : {},
 				logo,
 				navData: resHeader?.data?.nav,
 				footer: resFooter?.data?.footer,
@@ -28,29 +28,37 @@
 </script>
 
 <script lang="ts">
-	import '../../app.css';
-	import Form from '$lib/Form.svelte';
+	import SvelteMarkdown from 'svelte-markdown';
 
+	import '../../app.css';
 	import Header from '../../components/Header.svelte';
 	import Footer from '../../components/Footer.svelte';
+	import HomeBlock from './../../components/HomeBlock.svelte';
 	import SvelteSeo from 'svelte-seo';
 	import { setSubitems } from '$lib/menuSubitems';
-	import type { MenuSubitems, MenuSubitem, FormType } from '$lib/types';
+	import type { MenuSubitems, MenuSubitem } from '$lib/types';
+	import { onMount } from 'svelte';
 
-	const type: FormType = 'business';
 	export let logo: string;
+	export let page: any;
+	export let keywords: string;
 	export let navData: any;
 	export let footer: any;
 	export let socialMedia: any;
-	export let page: any;
-	const applications: MenuSubitem[] = [];
-	export let user: any = { userName: '', email: '' };
 
-	if (typeof localStorage !== 'undefined') {
-		const userName = localStorage.getItem('username') || '';
-		const email = localStorage.getItem('email') || '';
-		user = { userName, email };
-	}
+	let Carousel: any; // for saving Carousel component class
+	export let carousel: { goToNext: () => void }; // for calling methods of the carousel instance
+	onMount(async () => {
+		// @ts-ignore
+		const module = await import('svelte-carousel');
+		Carousel = module.default;
+	});
+	const handleNextClick = () => {
+		carousel.goToNext();
+	};
+
+	const applications: MenuSubitem[] = [];
+
 	setSubitems('Individual').forEach((element) => {
 		applications.push(element);
 	});
@@ -72,9 +80,9 @@
 			icon?: string;
 		}[];
 	}[] = [];
-	for (let i = 0; i < navData.length; i++) {
+	for (let i = 0; i < navData?.length; i++) {
 		let subitemsArray: any = [];
-		for (let j = 0; j < navData[i].subitems.length; j++) {
+		for (let j = 0; j < navData[i]?.subitems?.length; j++) {
 			const desc = navData[i]?.subitems[j]?.description?.split(`\n`) || [];
 			let feeHeader = null;
 			if (navData[i].subitems[j].feesType === 'individual') {
@@ -85,13 +93,6 @@
 			}
 			if (navData[i].subitems[j].feesType === 'business') {
 				feeHeader = 10;
-			}
-			if (
-				navData[i].subitems[j]?.feesType === 'education' ||
-				navData[i].subitems[j]?.feesType === 'community' ||
-				navData[i].subitems[j]?.feesType === 'partner'
-			) {
-				feeHeader = 25;
 			}
 			if (navData[i].subitems[j].feesType === 'institution') {
 				feeHeader = 100;
@@ -122,9 +123,9 @@
 		subitems: MenuSubitems;
 	}[] = [];
 
-	for (let i = 0; i < footer.length; i++) {
+	for (let i = 0; i < footer?.length; i++) {
 		let subitemsArray: any = [];
-		for (let j = 0; j < footer[i].subitems.length; j++) {
+		for (let j = 0; j < footer[i]?.subitems?.length; j++) {
 			const desc = footer[i]?.subitems[j]?.description?.split(`\n`) || [];
 			let feeHeader = 1;
 			if (navData[i].subitems[j]?.feesType === 'individual') {
@@ -136,15 +137,11 @@
 			if (navData[i].subitems[j]?.feesType === 'business') {
 				feeHeader = 10;
 			}
-			if (
-				navData[i].subitems[j]?.feesType === 'education' ||
-				navData[i].subitems[j]?.feesType === 'community' ||
-				navData[i].subitems[j]?.feesType === 'partner'
-			) {
-				feeHeader = 25;
+			if (navData[i].subitems[j]?.feesType === 'institution') {
+				feeHeader = 100;
 			}
-			if (navData[i].subitems[j]?.feesType === 'housing') {
-				feeHeader = 50;
+			if (navData[i].subitems[j]?.feesType === 'nomination') {
+				feeHeader = 10;
 			}
 			let subObj = {
 				text: footer[i]?.subitems[j]?.text || '',
@@ -164,30 +161,37 @@
 	}
 </script>
 
-<SvelteSeo
-	title="Business Grant"
-	description="Business Grant Application"
-	keywords="business, grant, application"
-	openGraph={{
-		title: 'Business Grant',
-		description: 'Business Grant Application',
-		// url: 'https://hrgo.com/applications/business',
-		type: 'website'
-	}}
-/>
+<SvelteSeo title={page?.SEO?.title} description={page?.SEO?.description} {keywords} />
 
 <div class="bg-white overflow-hidden shadow">
 	<Header {logo} {nav} />
-	<div class="py-4 max-w-3xl mx-auto mt-1 text-sm text-gray-500">
-		{#if page?.title}
-			<h3 class="text-lg leading-6 font-medium text-gray-900 my-4 capitalize">{page?.title}</h3>
-		{/if}
-		{#if page?.description}
-			<SvelteMarkdown source={page?.description} />
-		{/if}
-	</div>
-	<Form {type} {user} />
-	<div id="contribute" class="max-w-3xl" />
+	<hr />
 
+	<section class="max-w-7xl mx-auto flex flex-col items-center">
+		<h2 class="md:text-5xl text-3xl font-bold my-5">{page?.title}</h2>
+		{#if page?.description}
+			<p class="md:text-md text-md mb-32 text-center px-12">{page?.description}</p>
+		{/if}
+
+		<div class="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+			{#each page?.blog_posts as post}
+				<a
+					href={`/blog/${post.slug}`}
+					class="overflow-hidden bg-white shadow-lg border border-slate-100 cursor-pointer group rounded-2xl last:mr-0 lg:mr-6 lg:mb-10"
+				>
+					<div class="flex flex-col p-5">
+						<h1 class="mb-2 text-xl font-bold">{post.title}</h1>
+					</div>
+
+					<img
+						class="m-0 transition-transform duration-300 w-full max-h-60 group-hover:scale-110"
+						src={post?.image?.url}
+						loading="lazy"
+						alt={post.title}
+					/>
+				</a>
+			{/each}
+		</div>
+	</section>
 	<Footer {logo} {footerNav} {socialMedia} />
 </div>

@@ -49,6 +49,17 @@ export const page: PromisePage = {
 				return error;
 			});
 	},
+	customblog: async (slug: string): Promise<IBlogPage> => {
+		return await axios
+			.get(`${config.ENDPOINT_URL}custom-blogs?slug=${slug}`)
+			.then(async (response) => {
+				return await response.data;
+			})
+			.catch((error) => {
+				console.error(error);
+				return error;
+			});
+	},
 	raffle: async (): Promise<IRafflePage> => {
 		return await axios
 			.get(`${config.ENDPOINT_URL}raffle`)
@@ -80,6 +91,8 @@ type PromisePage = {
 		raffle: () => Promise<IFaqPage>;
 	};
 	blog: () => Promise<IBlogPage>;
+	customblog: (slug: string) => Promise<IBlogPage>;
+
 	raffle: () => Promise<IRafflePage>;
 	grant: () => Promise<IRafflePage>;
 };

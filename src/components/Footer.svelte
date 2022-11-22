@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { fee } from "$lib/stores";
-	import type { MenuSubitems } from "$lib/types";
-	import Donate from "./Donate.svelte";
-	import Icon from "@iconify/svelte";
+	import { fee } from '$lib/stores';
+	import type { MenuSubitems } from '$lib/types';
+	// import Donate from "./Donate.svelte";
+	import Icon from '@iconify/svelte';
 	import SvelteMarkdown from 'svelte-markdown';
-	import './styles.css'
+	import './styles.css';
 	export let footerNav: {
 		text: string;
 		link: string;
@@ -36,13 +36,14 @@
 										<a
 											href={subitem.link}
 											class="text-sm text-gray-500 hover:text-gray-900"
-											on:click={() => ($fee = subitem.fee)}>
+											on:click={() => ($fee = subitem.fee)}
+										>
 											<p class={`text-xs font-medium text-gray-800`}>
 												{subitem.text}
 											</p>
 											{#if subitem.description}
 												{#each subitem.description as desc}
-													<p class="mt-1 ml-2 text-xs text-gray-700">{desc ? `• ${desc}` : ""}</p>
+													<p class="mt-1 ml-2 text-xs text-gray-700">{desc ? `• ${desc}` : ''}</p>
 												{/each}
 											{/if}
 										</a>
@@ -62,11 +63,9 @@
 				{/if}
 				<div class="flex space-x-6 mt-6">
 					{#if socialMedia?.facebook}
-						<a
-							href={socialMedia?.facebook}
-							class="text-gray-400 hover:text-gray-500">
-								<span class="sr-only">Facebook</span>
-								<Icon class="h-6 w-6" icon="ci:facebook" />
+						<a href={socialMedia?.facebook} class="text-gray-400 hover:text-gray-500">
+							<span class="sr-only">Facebook</span>
+							<Icon class="h-6 w-6" icon="ci:facebook" />
 						</a>
 					{/if}
 					{#if socialMedia?.twitter}
@@ -76,14 +75,11 @@
 						</a>
 					{/if}
 					{#if socialMedia?.linkedin}
-						<a
-							href={socialMedia?.linkedin}
-							class="text-gray-400 hover:text-gray-500">
+						<a href={socialMedia?.linkedin} class="text-gray-400 hover:text-gray-500">
 							<span class="sr-only">Linkedin</span>
 							<Icon class="h-6 w-6" icon="ci:linkedin" />
 						</a>
 					{/if}
-
 				</div>
 			</div>
 		</div>
@@ -97,9 +93,9 @@
 				<SvelteMarkdown source={socialMedia?.copyrightText} />
 			{/if}
 
-			<div class="mt-4 grid place-items-center">
+			<!-- <div class="mt-4 grid place-items-center">
 				<Donate colors="bg-red-600 hover:bg-red-700 focus:ring-red-500" />
-			</div>
+			</div> -->
 		</div>
 	</div>
 </footer>

@@ -1,7 +1,8 @@
 <script lang="ts">
 	import Item from '../components/menu/Item.svelte';
-	import Donate from './Donate.svelte';
-	import DonateModal from '$lib/modals/DonateModal.svelte';
+
+	// import Donate from './Donate.svelte';
+	// import DonateModal from '$lib/modals/DonateModal.svelte';
 
 	export let logo: string;
 	let isLoggedIn: boolean;
@@ -39,9 +40,9 @@
 					<img class="h-10 w-auto" src={logo} alt="January Foundation" />
 				</a>
 			</div>
-			<div class="-mr-28 -my-2 md:hidden">
+			<!-- <div class="-mr-28 -my-2 md:hidden">
 				<Donate colors="bg-blue-600 hover:bg-blue-700 focus:ring-blue-500" />
-			</div>
+			</div> -->
 			<div class="-mr-2 -my-2 md:hidden">
 				<button
 					type="button"
@@ -80,9 +81,9 @@
 					class="hidden text-base font-medium text-gray-500 hover:text-gray-900 md:flex">Sign in</a
 				>
 			{/if}
-			<div class="hidden md:flex">
+			<!-- <div class="hidden md:flex">
 				<Donate colors="bg-blue-600 hover:bg-blue-700 focus:ring-blue-500" />
-			</div>
+			</div> -->
 		</div>
 	</div>
 </div>
@@ -138,4 +139,4 @@
 	{/if}
 </div>
 
-<DonateModal />
+<!-- <DonateModal /> -->

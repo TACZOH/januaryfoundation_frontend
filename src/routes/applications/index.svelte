@@ -197,13 +197,13 @@
 						/> -->
 				</a>
 			{/if}
-			{#if page.educationInstitution}
+			{#if page.education}
 				<a
 					href={`/applications/education-institution`}
 					class="overflow-hidden bg-white shadow-lg border border-slate-100 cursor-pointer group rounded-2xl last:mr-0 lg:mr-6 lg:mb-10"
 				>
 					<div class="flex flex-col p-5">
-						<h1 class="mb-2 text-xl font-bold">{page?.educationInstitution?.title}</h1>
+						<h1 class="mb-2 text-xl font-bold">{page?.education?.title}</h1>
 					</div>
 
 					<!-- <img
@@ -214,13 +214,13 @@
 						/> -->
 				</a>
 			{/if}
-			{#if page.communtiyBenefit}
+			{#if page.community}
 				<a
 					href={`/applications/community-benefit`}
 					class="overflow-hidden bg-white shadow-lg border border-slate-100 cursor-pointer group rounded-2xl last:mr-0 lg:mr-6 lg:mb-10"
 				>
 					<div class="flex flex-col p-5">
-						<h1 class="mb-2 text-xl font-bold">{page?.communtiyBenefit?.title}</h1>
+						<h1 class="mb-2 text-xl font-bold">{page?.community?.title}</h1>
 					</div>
 
 					<!-- <img
@@ -231,13 +231,13 @@
 						/> -->
 				</a>
 			{/if}
-			{#if page.globalPartner}
+			{#if page.partner}
 				<a
 					href={`/applications/global-partner`}
 					class="overflow-hidden bg-white shadow-lg border border-slate-100 cursor-pointer group rounded-2xl last:mr-0 lg:mr-6 lg:mb-10"
 				>
 					<div class="flex flex-col p-5">
-						<h1 class="mb-2 text-xl font-bold">{page?.globalPartner?.title}</h1>
+						<h1 class="mb-2 text-xl font-bold">{page?.partner?.title}</h1>
 					</div>
 
 					<!-- <img
